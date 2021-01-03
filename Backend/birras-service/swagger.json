@@ -1,0 +1,914 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "API docs for Birras Meetup - Santander",
+      "version": "1.0.0",
+      "title": "Birras Meetup API",
+      "contact": {
+        "email": "ftobares@gmail.com"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "host": "virtserver.swaggerhub.com",
+    "basePath": "/fertobares/BirrasMeetup/1.0.0",
+    "tags": [
+      {
+        "name": "authentication",
+        "description": "Operation to login"
+      },
+      {
+        "name": "users",
+        "description": "CRUD for users"
+      },
+      {
+        "name": "meetups",
+        "description": "CRUD for meetups"
+      },
+      {
+        "name": "categories",
+        "description": "List of categories"
+      }
+    ],
+    "schemes": [
+      "https"
+    ],
+    "paths": {
+      "/auth": {
+        "post": {
+          "tags": [
+            "authentication"
+          ],
+          "summary": "login",
+          "description": "By passing user and password you will get a token to use other backend services.\n",
+          "operationId": "login",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string"
+                  },
+                  "pass": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user token",
+              "schema": {
+                "$ref": "#/definitions/userToken"
+              }
+            },
+            "401": {
+              "description": "Login failed; Invalid user ID or password."
+            }
+          }
+        }
+      },
+      "/users/{userEmail}": {
+        "get": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Find user by Email. ",
+          "operationId": "getUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User",
+              "schema": {
+                "$ref": "#/definitions/user"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Update user. ",
+          "operationId": "putUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_name": {
+                    "type": "string",
+                    "example": "Name"
+                  },
+                  "user_surname": {
+                    "type": "string",
+                    "example": "Surname"
+                  },
+                  "user_country": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "user_city": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Update user",
+              "schema": {
+                "$ref": "#/definitions/shortUser"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Delete user by Email. ",
+          "operationId": "deleteUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/users/{userEmail}/password": {
+        "put": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Update user password. ",
+          "operationId": "putUserPassword",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_pass": {
+                    "type": "string",
+                    "example": "password"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Password updated"
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/users": {
+        "post": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Create user",
+          "operationId": "postUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_email": {
+                    "type": "string",
+                    "example": "email@domain.com"
+                  },
+                  "user_pass": {
+                    "type": "string",
+                    "example": "password"
+                  },
+                  "user_name": {
+                    "type": "string",
+                    "example": "Name"
+                  },
+                  "user_surname": {
+                    "type": "string",
+                    "example": "Surname"
+                  },
+                  "user_country": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "user_city": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Create user",
+              "schema": {
+                "$ref": "#/definitions/shortUser"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/users/{userId}/meetups/{meetupId}": {
+        "put": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Notify user assistance to a meetup",
+          "operationId": "putUserAssitance",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            },
+            {
+              "name": "meetupId",
+              "in": "path",
+              "required": true,
+              "type": "integer"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Assistance updated"
+            },
+            "400": {
+              "description": "Update user Assistance failed."
+            }
+          }
+        },
+        "post": {
+            "tags": [
+              "users"
+            ],
+            "summary": "Register user to a meetup",
+            "operationId": "postUserMeetup",
+            "produces": [
+              "application/json"
+            ],
+            "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "required": true,
+                "type": "string"
+              },
+              {
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                "name": "meetupId",
+                "in": "path",
+                "required": true,
+                "type": "integer"
+              }
+            ],
+            "responses": {
+              "201": {
+                "description": "User registered to meetup"
+              },
+              "400": {
+                "description": "User failed in register to meeetup"
+              }
+            }
+          }
+      },
+      "/meetups/{meetupId}": {
+        "get": {
+          "tags": [
+            "meetups"
+          ],
+          "summary": "Find meetup by id. ",
+          "operationId": "getMeetup",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "meetupId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Meetup data",
+              "schema": {
+                "$ref": "#/definitions/meetup"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        },
+        "put": {
+          "tags": [
+            "meetups"
+          ],
+          "summary": "Update meetups. ",
+          "operationId": "putMeetup",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "meetupId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meetup_title": {
+                    "type": "string",
+                    "example": "Meetup Title"
+                  },
+                  "meetup_date": {
+                    "type": "string",
+                    "example": "DD/MM/YYYY HH:MI"
+                  },
+                  "meetup_description": {
+                    "type": "string",
+                    "example": "Meetup Description"
+                  },
+                  "meetup_categories": {
+                    "type": "string",
+                    "example": "JAVA"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Update meetup",
+              "schema": {
+                "$ref": "#/definitions/meetup"
+              }
+            },
+            "207": {
+              "description": "Partialy Failed",
+              "schema": {
+                "$ref": "#/definitions/meetupError"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "meetups"
+          ],
+          "summary": "Delete meetup by id. ",
+          "operationId": "deleteMeetup",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "meetupId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Meetup deleted"
+            },
+            "207": {
+              "description": "Partialy Failed",
+              "schema": {
+                "$ref": "#/definitions/meetupDeleteError"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/meetups": {
+        "get": {
+          "tags": [
+            "meetups"
+          ],
+          "summary": "Find meetups data. Only allowed to filter by one tag a time. Can be filter by owner, category or none.",
+          "operationId": "getAllMeetups",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "owner",
+              "in": "query",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "name": "category",
+              "in": "query",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Meetup data",
+              "schema": {
+                "$ref": "#/definitions/meetup"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        },
+        "post": {
+          "tags": [
+            "meetups"
+          ],
+          "summary": "Create meetup",
+          "operationId": "postMeetup",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "user",
+              "required": false,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meetup_owner": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "meetup_title": {
+                    "type": "string",
+                    "example": "Meetup Title"
+                  },
+                  "meetup_date": {
+                    "type": "string",
+                    "example": "DD/MM/YYYY HH:MI"
+                  },
+                  "meetup_description": {
+                    "type": "string",
+                    "example": "Meetup Description"
+                  },
+                  "meetup_categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Create meetup",
+              "schema": {
+                "$ref": "#/definitions/meetup"
+              }
+            },
+            "207": {
+              "description": "Partialy Failed",
+              "schema": {
+                "$ref": "#/definitions/meetupError"
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/users/{userEmail}/meetups": {
+        "get": {
+          "tags": [
+            "users"
+          ],
+          "summary": "Find meetups that a user has been registerd. ",
+          "operationId": "getMeetupsOfAUser",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "userEmail",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Collection of meetups",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/meetup"
+                }
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      },
+      "/categories": {
+        "get": {
+          "tags": [
+            "categories"
+          ],
+          "summary": "Find all categories.",
+          "operationId": "getAllCategories",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Collection of categories",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/category"
+                }
+              }
+            },
+            "400": {
+              "description": "bad request"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "userToken": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Login Success"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiZW1haWwiOiJ0ZXN0X3VzZXIiLCJpYXQiOjE1ODU3OTAyNDcsImV4cCI6MTU4NTg3NjY0N30.kw6HnEGtg1FPM6jLiH35GU7TMJzrlAcd81DVr0USjS4"
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_email": {
+            "type": "string",
+            "example": "email@domain.com"
+          },
+          "user_pass": {
+            "type": "string",
+            "example": "null"
+          },
+          "user_name": {
+            "type": "string",
+            "example": "Name"
+          },
+          "user_surname": {
+            "type": "string",
+            "example": "Surname"
+          },
+          "user_country": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_city": {
+            "type": "integer",
+            "example": 1
+          },
+          "meetups_ownership": {
+            "type": "string",
+            "example": "http://localhost:3701/api/v1/meetups?owner=email@domain.com"
+          },
+          "meetups_registered": {
+            "type": "string",
+            "example": "http://localhost:3701/api/v1/users/email@domain.com/meetups"
+          }
+        }
+      },
+      "shortUser": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_email": {
+            "type": "string",
+            "example": "email@domain.com"
+          },
+          "user_pass": {
+            "type": "string",
+            "example": "null"
+          },
+          "user_name": {
+            "type": "string",
+            "example": "Name"
+          },
+          "user_surname": {
+            "type": "string",
+            "example": "Surname"
+          },
+          "user_country": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_city": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "meetup": {
+        "type": "object",
+        "properties": {
+          "meetup_owner": {
+            "type": "integer",
+            "example": 1
+          },
+          "meetup_title": {
+            "type": "string",
+            "example": "Meetup Title"
+          },
+          "meetup_date": {
+            "type": "string",
+            "example": "DD/MM/YYYY HH:MI"
+          },
+          "meetup_description": {
+            "type": "string",
+            "example": "Meetup Description"
+          },
+          "meetup_categories": {
+            "type": "integer",
+            "example": ""
+          },
+          "meetup_id": {
+            "type": "integer",
+            "example": 1
+          }
+        }
+      },
+      "meetupError": {
+        "type": "object",
+        "properties": {
+          "meetup_owner": {
+            "type": "integer",
+            "example": 1
+          },
+          "meetup_title": {
+            "type": "string",
+            "example": "Meetup Title"
+          },
+          "meetup_date": {
+            "type": "string",
+            "example": "DD/MM/YYYY HH:MI"
+          },
+          "meetup_description": {
+            "type": "string",
+            "example": "Meetup Description"
+          },
+          "meetup_categories": {
+            "type": "integer",
+            "example": ""
+          },
+          "meetup_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "errors": {
+            "type": "object",
+            "example": [
+              {
+                "code": 400,
+                "message": "Failed to create relation meetup-category. meetupid=1, categoryid=3"
+              }
+            ],
+            "properties": {}
+          }
+        }
+      },
+      "meetupDeleteError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Meetup deleted"
+          },
+          "errors": {
+            "type": "object",
+            "example": [
+              {
+                "code": 400,
+                "message": "Failed to delete relation meetup-category. meetupid=1, categoryid=3"
+              }
+            ],
+            "properties": {}
+          }
+        }
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "category_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "category_title": {
+            "type": "string",
+            "example": "Category title"
+          },
+          "category_hashtag": {
+            "type": "string",
+            "example": "JAVA"
+          },
+          "category_description": {
+            "type": "string",
+            "example": "Category description"
+          }
+        }
+      }
+    }
+  }

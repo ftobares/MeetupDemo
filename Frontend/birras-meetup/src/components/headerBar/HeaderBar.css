@@ -1,0 +1,23 @@
+.weatherContent {
+    width: 100%;
+    max-width: 360;
+    background-color: transparent;
+    color: 'white';
+}
+
+.MuiTypography-colorTextSecondary {
+    color: #ffffff !important;
+}
+
+.MuiAvatar-root {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+.MuiAvatar-colorDefault {
+    background-color: transparent !important;
+}
+
+.MuiListItemText-multiline {
+    margin-left: 10px !important;
+}

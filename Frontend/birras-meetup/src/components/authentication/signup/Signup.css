@@ -1,0 +1,35 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.page-login {
+    margin-bottom: 53px;
+}
+
+.login-heading {
+    color: var(--color-uno);
+    font-weight: 700 !important;
+}
+
+.login-main .MuiPaper-root {
+    background-color: var(--color-tres);
+}
+
+/* .login-main .MuiButtonBase-root {
+    background-color: var(--color-uno);
+}
+
+.login-main .MuiButtonBase-root:hover {
+    background-color: var(--color-dos);
+} */
+
+.login-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 16px 0;
+    background-color: var(--color-tres);
+    text-align: center;
+}
